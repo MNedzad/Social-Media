@@ -10,7 +10,7 @@ export default async function  checkAuth() {
         
           return true;
         }
-        return {status: false, error : res.data['error']}
+        return false
         
     })
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { useEffect, useState , useContext } from "react";
+import { useEffect, useState, useContext } from "react";
 import { Await, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Avatar from "@mui/material/Avatar";
@@ -29,7 +29,7 @@ function Card(props) {
   const [listofpost, setListodPost] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [comments, setComments] = useState([]);
-  const {authState,setAuthState} = useContext(AuthContext);
+  const { authState, setAuthState } = useContext(AuthContext);
 
 
 
@@ -66,23 +66,23 @@ function Card(props) {
     }
   };
   useEffect(() => {
-    
 
-    const GetPosts = async () =>{
-     
 
-      await axios.request({method: "GET", url: `${adress}posts`, headers: {accessToken: localStorage.getItem("accessToken")}})
-      .then((res) => {
-        
-        setListodPost(res.data);
-    })
+    const GetPosts = async () => {
+
+
+      await axios.request({ method: "GET", url: `${adress}posts`, headers: { accessToken: localStorage.getItem("accessToken") } })
+        .then((res) => {
+
+          setListodPost(res.data);
+        })
 
 
     }
     GetPosts();
 
-      
-  
+
+
   }, []);
 
 
@@ -116,24 +116,24 @@ function Card(props) {
           })
         );
       });
-      
-  };
-   
-  
-  if(authState){
 
-  
+  };
+
+
+  if (authState === true) {
+
+
     return (
-      
+
 
       <div className="posts-list">
-      
-    
+
+
         {listofpost.map((value, key) => {
           let like_Length = value.Likes.length;
-          
-          
-          
+
+
+
           let userliked;
           for (let i = 0; i < like_Length; i++) {
             const postUserId = value.Likes[i].UserId;
@@ -147,42 +147,44 @@ function Card(props) {
           }
           let like = value.liked !== undefined ? value.liked.liked : null;
           let found = like == null ? userliked : like;
-          
-          
-     
-           
-          
+
+
+
+
+
 
           const time = value.createdAt;
           const realtime = moment(time).utc().format("YYYY-MM-DD");
           const names = value.Image !== undefined ? true : value.Images[0];
           const name = names !== undefined ? value.Images[0].ImageName : false;
-          
+
           return (
             <div key={key} className="post" >
               <div className="overlay">
                 <div className="title">
-                  <div className="avatar">
-                    <Avatar>A</Avatar>
-                  </div>
-                  <div className="username">
-                    <h1>{value.username}</h1>
+                  <div className="info">
+                    <div className="avatar">
+                      <Avatar>A</Avatar>
+                    </div>
+                    <div className="username">
+                      <h1>{value.username}</h1>
 
-                    <h5>{realtime}</h5>
+                      <h5>{realtime}</h5>
+                    </div>
                   </div>
                   {value.UserId === userId ? (
                     <button id={'Edit'}>Edit Post</button>
-                    
+
                   ) : (
                     <button
                       onClick={(e) => {
-                        follow(e , value.UserId);
+                        follow(e, value.UserId);
                       }}
                     >
                       {<Follow value={value} />}
                     </button>
                   )}
-                  
+
                 </div>
 
                 <div className="body">
@@ -193,63 +195,63 @@ function Card(props) {
                     <img src={`${adress}images/username/${name}`}></img>
                     <div className="overlay"></div>
                     <div className="footer">
-                  <div className="ftitle">
-                    <h4>{value.title}</h4>
-                  </div>
-                  <div className="likes">
-                    
-                    <button
-                      id="like"
-                      onClick={(e) => {
-                        likepost(value.id, e);
-                      }}
-                    >
-                     
-                      {props.state == true ? (
-                        found ? (
-                          <FavoriteIcon />
-                        ) : (
-                          <FavoriteBorderSharpIcon />
-                        )
-                      ) : (
-                        <FavoriteBorderSharpIcon />
-                      )}
-                    </button>
-                    <span>{value.Likes.length}</span>
+                      <div className="ftitle">
+                        <h4>{value.title}</h4>
+                      </div>
+                      <div className="likes">
+
+                        <button
+                          id="like"
+                          onClick={(e) => {
+                            likepost(value.id, e);
+                          }}
+                        >
+
+                          {props.state == true ? (
+                            found ? (
+                              <FavoriteIcon />
+                            ) : (
+                              <FavoriteBorderSharpIcon />
+                            )
+                          ) : (
+                            <FavoriteBorderSharpIcon />
+                          )}
+                        </button>
+                        <span>{value.Likes.length}</span>
+                      </div>
+
+                      <div className="fcomment">
+                        <button id="comment" onClick={e => {
+                          let Icon = e.target.parentElement.parentElement.querySelector('[data-testid="QuestionAnswerIcon"]');
+                          let OutlinedIcon = e.target.parentElement.parentElement.querySelector('[data-testid="QuestionAnswerOutlinedIcon"]');
+                          let ComList = e.target.closest(".post").querySelector(".comdisp");
+
+                          if (Icon.style.display === "none" || Icon.style.display === "") {
+                            Icon.style.display = "block";
+                            OutlinedIcon.style.display = "none";
+                            ComList.style.display = "block";
+                          } else {
+                            Icon.style.display = "none";
+                            OutlinedIcon.style.display = "block";
+                            ComList.style.display = "none";
+                          }
+
+                        }}>
+                          {
+                            <>
+
+                              <QuestionAnswerOutlinedIcon />
+                              <QuestionAnswerIcon />
+
+                            </>
+
+
+                          }
+                        </button>
+                      </div>
+                    </div>
                   </div>
 
-                  <div className="fcomment">
-                    <button id="comment"  onClick={e => {
-                      let Icon = e.target.parentElement.parentElement.querySelector('[data-testid="QuestionAnswerIcon"]');
-                      let OutlinedIcon = e.target.parentElement.parentElement.querySelector('[data-testid="QuestionAnswerOutlinedIcon"]');
-                      let ComList = e.target.closest(".post").querySelector(".comdisp");
-      
-                      if(Icon.style.display === "none" || Icon.style.display === ""){
-                        Icon.style.display = "block";
-                        OutlinedIcon.style.display = "none";
-                        ComList.style.display = "block";
-                      }else{
-                        Icon.style.display = "none";
-                        OutlinedIcon.style.display = "block"; 
-                        ComList.style.display = "none";
-                      }
-                      
-                    }}>
-                      {
-                          <>
-
-                          <QuestionAnswerOutlinedIcon /> 
-                          <QuestionAnswerIcon /> 
-                          
-                        </>
-                       
-                        
-                      }
-                    </button>
-                  </div>
-                </div>
-                  </div>
-                 
                 </div>
 
               </div>
@@ -298,9 +300,9 @@ function Card(props) {
 }
 
 
-const follow = (e,id ) => {
+const follow = (e, id) => {
   var elemet = e.target
-  
+
   const adress = ConfigData["U2VydmVyLVNpZGUtSXA="];
   axios.post(
     `${adress}follow`,
@@ -310,9 +312,9 @@ const follow = (e,id ) => {
         accessToken: localStorage.getItem("accessToken"),
       },
     }
-  ).then(res =>{
+  ).then(res => {
     var data = res.data
-    if(data == "Follow") elemet.innerHTML = "Following";
+    if (data == "Follow") elemet.innerHTML = "Following";
     else elemet.innerHTML = "Follow";
   })
 };

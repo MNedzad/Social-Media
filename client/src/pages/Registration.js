@@ -2,7 +2,6 @@ import { useContext, React, useEffect } from 'react'
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from 'axios';
-
 import { useNavigate } from 'react-router-dom';
 import ConfigData from "../config.json"
 
@@ -22,7 +21,7 @@ function Registration() {
   });
 
   const onSubmit = (data) => {
-    console.log(data);
+    
     axios.post(`${adress}auth`, data).then((res) => {
       if (res.data.error) { alert(res.data.error); }
       else {
@@ -32,17 +31,12 @@ function Registration() {
           else {
 
             localStorage.setItem("accessToken", res.data);
-            location.reload()
+            window.location.reload()
           }
         })
       }
     })
   }
-
-
-
-
-
   return (
     <div className="container"><div className="signup">
       <h1>Registration</h1>
@@ -60,8 +54,6 @@ function Registration() {
             placeholder="(Ex. John123...)"
           />
           <div className='error'><ErrorMessage name="username" component="span" /></div>
-
-
           <label>Email: </label>
           <Field
             autoComplete="off"
@@ -70,8 +62,6 @@ function Registration() {
             placeholder="(Ex. John123@...)"
           />
           <div className='error'>  <ErrorMessage name="email" component="span" /></div>
-
-
           <label>Password: </label>
           <Field
             autoComplete="off"
@@ -89,8 +79,6 @@ function Registration() {
             placeholder="********"
           />
           <div className='error'>  <ErrorMessage name="confirmPassword" component="span" /></div>
-
-
           <button type="submit">Submit</button>
         </Form>
       </Formik>

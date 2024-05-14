@@ -4,7 +4,6 @@ import React, { useEffect } from "react";
 
 function ErrorToast(toast) 
 {
-  
   toast({
     title: 'Network Error',
     description: "The Server Has Refused the Connection.",
@@ -12,10 +11,7 @@ function ErrorToast(toast)
     duration: 9000,
     isClosable: true,
   })
-    
- 
 }
-
 export default class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);

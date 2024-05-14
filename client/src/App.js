@@ -6,13 +6,9 @@ import axios from 'axios';
 import { AuthContext, Message } from './pages/Helper/authContext';
 import { Navigate, redirect, Redirect } from 'react-router-dom';
 import React from 'react';
-
-
 function App() {
-
-
   const toast = useToast();
-  const [authState, setAuthState] = useState({status: false, error: ""});
+  const [authState, setAuthState] = useState({status: false});
   const [showmenu, setShowMenu] = useState(false);
 
   const AuthCheck = () =>
@@ -21,25 +17,27 @@ function App() {
 
     useEffect(() =>
     {
+
       const Test = async () =>
       {
-        var status ;
+        
+
         try {
-          status = await checkAuth().then((data) =>
-            { 
-              console.log(data);
-            })
+          const status = await checkAuth()
+            console.log(status);
+              if(status)
+                 setAuthState(status)
         } catch (err) {
           var msg = err.message;
       
           setError(msg)
         } 
-   
-        
-        return status; 
+     
       }
-      Test();
-    }, [])
+      if(authState.status != true)
+        Test();
+    
+    }, [authState.status])
 
    
     if(error != null)
@@ -52,6 +50,8 @@ function App() {
   //const notify = () => toast({ title: "Success Notification !", status: "success" });
 
   try {
+    
+    var authStatus = authState;
 
     return (
 
@@ -65,7 +65,7 @@ function App() {
               <ul>
                 <li>
                   {/* <Link className='link' onClick={window.location.reload}to="/"> Home Page</Link>  */}
-                  {authState === true && (
+                  {authStatus === true && (
                     <>
                       <div className='LA'>
                         <Link className='link' onClick={() => window.location.reload} to="/Createpost"> Create A Post</Link>
@@ -83,7 +83,7 @@ function App() {
                       </div>
                     </>
                   )}
-                  {authState !== true && (
+                  {authStatus !== true && (
                     <>
                       <Link className='link' onClick={() => window.location.reload} to="/Login">Sign In</Link>
                       <Link className='link' onClick={() => window.location.reload} to="/Registration"> Registration </Link>
@@ -97,12 +97,12 @@ function App() {
             )
             }
             <Routes>
-              <Route path="/" element={authState === true ? <Navigate to="/foryou" /> : <Navigate to="/Login" />} />
-              <Route path="/foryou" element={authState === true ? <Home></Home> : <Navigate to="/Login" />} />
-              <Route path="/Createpost" element={authState === true ? <CreatePost></CreatePost> : <Navigate to="/Login" />} />
-              <Route path="/Post/:id" element={authState === true ? <Post></Post> : <Navigate to="/Login" />} />
-              <Route path="/Login" element={authState !== true ? <Login></Login> : <Navigate to="/foryou" />} />
-              <Route path="/Registration" element={authState !== true ? <Register></Register> : <Navigate to="/foryou" />} />
+              <Route path="/" element={authStatus === true ? <Navigate to="/foryou" /> : <Navigate to="/Login" />} />
+              <Route path="/foryou" element={authStatus === true ? <Home></Home> : <Navigate to="/Login" />} />
+              <Route path="/Createpost" element={authStatus === true ? <CreatePost></CreatePost> : <Navigate to="/Login" />} />
+              <Route path="/Post/:id" element={authStatus === true ? <Post></Post> : <Navigate to="/Login" />} />
+              <Route path="/Login" element={authStatus !== true ? <Login></Login> : <Navigate to="/foryou" />} />
+              <Route path="/Registration" element={authStatus !== true ? <Register></Register> : <Navigate to="/foryou" />} />
 
 
               {/* <Route path="*" element={<Pagenot />} /> */}
