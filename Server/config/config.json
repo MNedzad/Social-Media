@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "Developer",
+    "password": "g0C_[Y^bo?4@(qcv1",
+    "database": "tutorial",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": "root",
+    "password": "g0C_[Y^bo?4@(qcv1",
+    "database": "database_test",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "root",
+    "password": "g0C_[Y^bo?4@(qcv1",
+    "database": "database_production",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  }
+}
