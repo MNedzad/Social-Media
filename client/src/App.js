@@ -17,23 +17,35 @@ function App() {
 
   const AuthCheck = () =>
   {
+    const [error, setError] = useState(null);
+
     useEffect(() =>
     {
       const Test = async () =>
       {
-        
-       var status = await checkAuth().then((data) =>
-        { 
-          console.log(data);
-        }).catch(err =>
-        {
-          return "Error"
-        })
+        var status ;
+        try {
+          status = await checkAuth().then((data) =>
+            { 
+              console.log(data);
+            })
+        } catch (err) {
+          var msg = err.message;
+      
+          setError(msg)
+        } 
+   
         
         return status; 
       }
-      
+      Test();
     }, [])
+
+   
+    if(error != null)
+      {
+        throw Error(error)
+      }
   }
 
 

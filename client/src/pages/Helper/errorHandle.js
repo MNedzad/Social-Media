@@ -1,17 +1,19 @@
 
-import React from "react";
+import React, { useEffect } from "react";
 
 
-
-function ErrorToast(toast) {
-  const Toast = toast({
-    title: 'Error.',
-    description: "Something went wrong.",
+function ErrorToast(toast) 
+{
+  
+  toast({
+    title: 'Network Error',
+    description: "The Server Has Refused the Connection.",
     status: 'error',
     duration: 9000,
     isClosable: true,
   })
-  return  Toast
+    
+ 
 }
 
 export default class ErrorBoundary extends React.Component {
@@ -30,6 +32,8 @@ export default class ErrorBoundary extends React.Component {
   }
   
   render() {
+
+
     console.log(this.state.hasError);
     if (this.state.hasError) {
       // Error path
